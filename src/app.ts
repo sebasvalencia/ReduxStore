@@ -12,7 +12,7 @@ const store = new fromStore.store(
     todos: [{ label: "Eat pizza", complete: false }]
   }
 );
-console.log(store.value);
+//console.log(store.value);
 
 button.addEventListener(
   "click",
@@ -21,8 +21,13 @@ button.addEventListener(
 
     const payload = { label: input.value, complete: false };
     
+    //dispatch this payload into action - creando la action
+    store.dispatch({
+      type: 'ADD_TODO',
+      payload: payload
+    });
 
-    console.log(payload);
+    //console.log(payload);
     //como enviar las acciones
 
     input.value = "";
