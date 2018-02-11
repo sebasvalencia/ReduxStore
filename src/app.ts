@@ -40,10 +40,12 @@ button.addEventListener(
     const payload = { label: input.value, complete: false };
 
     //dispatch this payload into action - creando la action
-    store.dispatch({
-      type: "ADD_TODO",
+    store.dispatch(new fromStore.AddTodo(payload));//q el tipo es el indicado
+    /*store.dispatch({
+      //type: "ADD_TODO",
+      type: fromStore.ADD_TODO,
       payload: payload
-    });
+    });*/
 
     console.log(store.value);
 
@@ -65,6 +67,8 @@ todoList.addEventListener("click", function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === "button") {
     console.log(target);
+    const todo = JSON.parse(target.getAttribute('data-todo') as any );
+    store.dispatch(new fromStore.RemoveTodo(todo));
   }
 });
 
