@@ -21,9 +21,8 @@ const state = {
 }
 */
 
-
 //vamos a enganchar al reducer
-const store = new fromStore.store({reducers});
+const store = new fromStore.store({ reducers });
 
 /*const store = new fromStore.store(
   {},
@@ -56,9 +55,17 @@ button.addEventListener(
   false
 );
 
+const unsubscribe = store.suscribe(state => {
+  renderTodos(state.todos.data);
+});
+
+destroy.addEventListener('click', unsubscribe, false);
+
 todoList.addEventListener("click", function(event) {
   const target = event.target as HTMLButtonElement;
   if (target.nodeName.toLowerCase() === "button") {
     console.log(target);
   }
 });
+
+store.suscribe(state => console.log("STATE:::", state));
