@@ -6,12 +6,31 @@ const button = document.querySelector("button") as HTMLButtonElement;
 const destroy = document.querySelector(".unsubscribe") as HTMLButtonElement;
 const todoList = document.querySelector(".todos") as HTMLLIElement;
 
-const store = new fromStore.store(
+//registramos el reducer, en el store (index.ts)
+const reducers = {
+  todos: fromStore.reducer //contiene una funcion q maneja todos los state del todo
+};
+
+/*estructura de la data
+const state = {
+  todos:{
+    loaded: false,
+    loading: false,
+    data: []
+  }
+}
+*/
+
+
+//vamos a enganchar al reducer
+const store = new fromStore.store({reducers});
+
+/*const store = new fromStore.store(
   {},
   {
     todos: [{ label: "Eat pizza", complete: false }]
   }
-);
+);*/
 //console.log(store.value);
 
 button.addEventListener(
@@ -20,12 +39,14 @@ button.addEventListener(
     if (!input.value.trim()) return;
 
     const payload = { label: input.value, complete: false };
-    
+
     //dispatch this payload into action - creando la action
     store.dispatch({
-      type: 'ADD_TODO',
+      type: "ADD_TODO",
       payload: payload
     });
+
+    console.log(store.value);
 
     //console.log(payload);
     //como enviar las acciones

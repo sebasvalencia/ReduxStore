@@ -10,7 +10,9 @@ export class store {
 
 
   constructor(reducers = {}, initialState = {}) {
-      this.state = initialState;
+      this.reducers = reducers;
+      //this.state = initialState;
+      this.state = this.reduce(initialState,{});//usarlo como una libreria
   }
 
   get value(){
@@ -19,11 +21,26 @@ export class store {
 
   //tenemos q conocer el state
   dispatch(action){
-    this.state = {
+      this.state = this.reduce(this.state, action);
+    /*this.state = {
         ...this.state, //merge con el nuevo objecto
         todos: [...this.state.todos, action.payload ]
     };
-    console.log(this.state);
+    console.log(this.state);*/
+  }
+
+  private reduce(state, action){
+    //actiualizamos el state object llamando la funcion reducers
+        const newState = {};
+        for (const prop in this.reducers) {
+            
+            //se adiciona dinamicamente
+            //newState.todos = this.reducers.todos()
+            newState[prop] = this.reducers[prop](state[prop], action);//maneja cada propiedad
+            
+            
+        }
+        return newState;
   }
 
 }
